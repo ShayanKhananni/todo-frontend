@@ -11,10 +11,13 @@ const {user} = useSelector((state) => state.auth);
 const dispatch = useDispatch();
 const {photoURL} = user
 
+const url = import.meta.env.VITE_BASE_URL;
+
+
 
 const logout = async () => {
   try {
-    const response = await fetch("http://localhost:3000/api/user/logout", {
+    const response = await fetch(`${url}/user/logout`, {
       method: "POST",
       credentials: "include",
       headers: {

@@ -30,7 +30,6 @@ const SignIn = () => {
       const action = await dispatch(sigininUser(values));
       if (sigininUser.fulfilled.match(action)) {
         dispatch(sessionActions.sessionActive());
-        navigate('/');
       }
     } catch (err) {
       setErrors({ submit: err.message || "Sigin failed. Please try again." });

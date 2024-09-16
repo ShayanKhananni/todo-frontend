@@ -10,23 +10,22 @@ import SessionExpired from "../Components/SessionExpired";
 import Container from "../Components/Container";
 
 const ProtectedRoute = () => {
-  const {user} = useSelector((state)=>state.auth);
+  const { user } = useSelector((state) => state.auth);
   const session = useSelector((state) => state.session);
   const dispatch = useDispatch();
+
+  const url = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:3000/api/user/check-session",
-          {
-            credentials: "include",
-            method: "POST",
-            headers: {
-              "Cotent-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(`${url}/user/check-session`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         if (!response.ok) {
           const errData = await response.json();
@@ -34,7 +33,7 @@ const ProtectedRoute = () => {
         }
 
         const data = await response.json();
-        console.log(data)
+        console.log(data);
       } catch (err) {
         if (
           err.message === "Access Denied no token Provided" &&
@@ -42,7 +41,7 @@ const ProtectedRoute = () => {
         ) {
           dispatch(sessionActions.sessionExpired());
         } else {
-          console.log(err);
+          console.log(err.message);
         }
       }
     };
@@ -54,6 +53,7 @@ const ProtectedRoute = () => {
 
   if (!session && user) {
     return <SessionExpired />;
+    // console.log('check cookie');
   } else if (user && session) {
     return (
       <>

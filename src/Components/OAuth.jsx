@@ -8,11 +8,15 @@ import { authActions } from '../Store/auth-slice';
 import { sessionActions } from '../Store/session-slice';
 import { FaGoogle } from "react-icons/fa";
 
+
+
 function OAuth() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+  const url = import.meta.env.VITE_BASE_URL;
+
+
   const handleGoogleAuth = async () =>
   {
     try
@@ -23,7 +27,7 @@ function OAuth() {
       const {email,photoURL,displayName} = result.user;
       const user = {email,photoURL,displayName}
 
-      const response = await fetch("http://localhost:3000/api/auth/google/signin",{
+      const response = await fetch(`${url}/auth/google/signin`,{
         method: 'POST',
         credentials: 'include',
         headers:
