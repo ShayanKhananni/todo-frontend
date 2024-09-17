@@ -15,6 +15,7 @@ function OAuth() {
   const url = import.meta.env.VITE_BASE_URL;
 
 
+
   const handleGoogleAuth = async () =>
   {
     try
@@ -24,7 +25,7 @@ function OAuth() {
       const result = await signInWithPopup(auth,provider);
       const {email,photoURL,displayName} = result.user;
       const user = {email,photoURL,displayName}
-      console.log(user);
+      console.log(user,"User");
 
       const response = await fetch(`${url}/auth/google/signin`,{
         method: 'POST',
