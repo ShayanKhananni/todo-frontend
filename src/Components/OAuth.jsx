@@ -8,8 +8,6 @@ import { authActions } from '../Store/auth-slice';
 import { sessionActions } from '../Store/session-slice';
 import { FaGoogle } from "react-icons/fa";
 
-
-
 function OAuth() {
 
   const dispatch = useDispatch();
@@ -26,6 +24,7 @@ function OAuth() {
       const result = await signInWithPopup(auth,provider);
       const {email,photoURL,displayName} = result.user;
       const user = {email,photoURL,displayName}
+      console.log(user);
 
       const response = await fetch(`${url}/auth/google/signin`,{
         method: 'POST',
