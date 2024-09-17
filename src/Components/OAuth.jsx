@@ -38,16 +38,17 @@ function OAuth() {
 
       if(!response.ok)
       {
+
         const errData = await response.json();
          initError(errData.message,errData.statusCode);
       }
 
-
       const data = await response.json();
       console.log(data);
-      dispatch(sessionActions.sessionActive());
-      dispatch(authActions.signUser(data));
-      navigate('/')
+      console.log("Hello Wolrd");
+      // dispatch(sessionActions.sessionActive());
+      // dispatch(authActions.signUser(data));
+      // navigate('/')
 
     }
     catch(err)
