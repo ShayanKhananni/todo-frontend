@@ -60,7 +60,7 @@ const ProtectedRoute = () => {
         <Container>
           <Header />
           <Outlet />
-          <RefreshToken />
+          {/* <RefreshToken /> */}
         </Container>
       </>
     );
