@@ -39,6 +39,11 @@ const todoSlice = createSlice({
       }) 
     },
 
+    emptyTodos: (state,action) =>
+    {
+      state.todos = [];
+    } 
+
   },
 
   extraReducers: (builder) => {

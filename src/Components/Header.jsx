@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { initError } from "../utils/utils";
 import logo from '../assets/Logo.png';
 import { authActions } from "../Store/auth-slice";
+import { todoActions } from "../Store/todo-slice";
 
 const Header = () => {
   
@@ -31,6 +32,7 @@ const logout = async () => {
     }
 
     const data = response.json();
+    dispatch(todoActions.emptyTodos());
     dispatch(authActions.signOut());
   } catch (err) {
     console.log(err);
