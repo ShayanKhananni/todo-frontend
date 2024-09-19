@@ -41,12 +41,12 @@ function OAuth() {
       const data = await response.json();
       console.log(data);
       console.log("Hello Wolrd");
-      // dispatch(sessionActions.sessionActive());
-      // dispatch(authActions.signUser(data));
-      // navigate('/')
+      dispatch(sessionActions.sessionActive());
+      dispatch(authActions.signUser(data));
+      navigate('/')
     } catch (err) {
       console.log(err);
-      // dispatch(authActions.signingFailure({message:err.message}));
+      dispatch(authActions.signingFailure({message:err.message}));
     }
   };
 
