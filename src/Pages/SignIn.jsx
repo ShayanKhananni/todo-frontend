@@ -8,10 +8,11 @@ import * as Yup from "yup";
 import { sessionActions } from "../Store/session-slice";
 import Spinner from "../Components/Spinner";
 
+
 const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { error, loading } = useSelector((state) => state.auth);
+  const {error,loading} = useSelector((state)=>state.auth)
   const initialValues = {
     email: "",
     password: "",
@@ -52,69 +53,56 @@ const SignIn = () => {
               onSubmit={handleonSubmit}
               validationSchema={validationSchema}
             >
+
               {({ isSubmitting }) => (
                 <Form>
-                  <div class="relative mb-4">
-                    <label
-                      for="email"
-                      class="leading-7 text-md text-gray-600 font-bold"
-                    >
-                      Email
-                    </label>
-                    <Field
-                      type="email"
-                      id="email"
-                      placeholder="Enter Email"
-                      name="email"
-                      class="w-full bg-gray-100 font-semibold rounded border-none placeholder-black  focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-sm outline-none text-gray-700 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                    />
-                    <ErrorMessage
-                      name="email"
-                      component="div"
-                      className="text-red-600 text-sm"
-                    />
-                  </div>
-
-                  <div class="relative mb-4">
-                    <label
-                      for="password"
-                      class="leading-7 text-md text-gray-600 font-bold"
-                    >
-                      Passoword
-                    </label>
-                    <Field
-                      type="password"
-                      id="password"
-                      placeholder="Enter Password"
-                      name="password"
-                      class="w-full bg-gray-100 font-semibold rounded border-none placeholder-black  focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-sm outline-none text-gray-700 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                    />
-                    <ErrorMessage
-                      name="password"
-                      component="div"
-                      className="text-red-600 text-sm"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    class="text-white font-semibold font-primary bg-softRed border-0 py-2 px-8 focus:outline-none w-full hover:bg-indigo-600 rounded text-lg"
-                  >
-                    {loading ? (
-                      <Spinner
-                        styling={"w-10 h-10 fill-white-600  dark:text-gray-600"}
+                    <div class="relative mb-4">
+                      <label
+                        for="email"
+                        class="leading-7 text-md text-gray-600 font-bold"
+                      >
+                        Email
+                      </label>
+                      <Field
+                        type="email"
+                        id="email"
+                        placeholder="Enter Email"
+                        name="email"
+                        class="w-full bg-gray-100 font-semibold rounded border-none placeholder-black  focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-sm outline-none text-gray-700 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out"
                       />
-                    ) : (
-                      "Sigin"
-                    )}
+                      <ErrorMessage name="email" component="div" className="text-red-600 text-sm" />
+                    </div>
+
+
+                    <div class="relative mb-4">
+                      <label
+                        for="password"
+                        class="leading-7 text-md text-gray-600 font-bold"
+                      >
+                        Passoword
+                      </label>
+                      <Field
+                        type="password"
+                        id="password"
+                        placeholder="Enter Password"
+                        name="password"
+                        class="w-full bg-gray-100 font-semibold rounded border-none placeholder-black  focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-sm outline-none text-gray-700 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                      />
+                      <ErrorMessage name="password" component="div" className="text-red-600 text-sm" />
+                    </div>
+
+
+                  <button type="submit" class="text-white font-semibold font-primary bg-softRed border-0 py-2 px-8 focus:outline-none w-full hover:bg-indigo-600 rounded text-lg">
+                  {loading ? <Spinner styling={'w-10 h-10 fill-white-600  dark:text-gray-600'} /> : 'Sigin'}
                   </button>
 
                   <OAuth />
                 </Form>
               )}
+
             </Formik>
 
-            {error ? <p className="text-red-500 text-lg">{error}</p> : null}
+            {error ? <p className="text-red-500 text-lg" >{error}</p> : null}
 
             <p className="mt-3  text-black me-1">
               Dont have an Account{" "}
@@ -125,6 +113,8 @@ const SignIn = () => {
           </div>
         </div>
       </section>
+
+
     </>
   );
 };
