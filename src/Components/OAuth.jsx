@@ -21,17 +21,14 @@ function OAuth() {
       const user = { email, photoURL, displayName };
       console.log(user);
 
-      const response = await fetch(
-        `https://todo-backend-sepia-zeta.vercel.app/api/auth/google/signin`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(user),
-        }
-      );
+      const response = await fetch(`${url}/auth/google/signin`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
 
       if (!response.ok) {
         const errData = await response.json();
@@ -43,10 +40,10 @@ function OAuth() {
       console.log("Hello Wolrd");
       dispatch(sessionActions.sessionActive());
       dispatch(authActions.signUser(data));
-      navigate('/')
+      navigate("/");
     } catch (err) {
       console.log(err);
-      dispatch(authActions.signingFailure({message:err.message}));
+      dispatch(authActions.signingFailure({ message: err.message }));
     }
   };
 

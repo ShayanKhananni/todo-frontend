@@ -15,7 +15,6 @@ const {photoURL} = user
 const url = import.meta.env.VITE_BASE_URL;
 
 
-
 const logout = async () => {
   try {
     const response = await fetch(`${url}/user/logout`, {
@@ -33,6 +32,7 @@ const logout = async () => {
 
     const data = response.json();
     dispatch(todoActions.emptyTodos());
+    console.log("cleaning todos");
     dispatch(authActions.signOut());
   } catch (err) {
     console.log(err);
