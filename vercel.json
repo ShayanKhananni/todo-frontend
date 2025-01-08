@@ -4,6 +4,10 @@
     {
       "src": "index.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "public/**/*",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -12,9 +16,9 @@
       "dest": "/index.html"
     }
   ],
-  "functions": {
-    "api/**/*.js": {
-      "runtime": "nodejs16.x"
-    }
-  }
+  // "functions": {
+  //   "api/**/*.js": {
+  //     "runtime": "nodejs16.x"
+  //   }
+  // }
 }
