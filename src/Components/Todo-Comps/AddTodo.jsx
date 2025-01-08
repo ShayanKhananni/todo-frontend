@@ -19,7 +19,6 @@ const AddTodo = () => {
     time: "",
   };
 
-  console.log("Hello World");
 
   const validationSchema = Yup.object().shape({
     title: Yup.string()

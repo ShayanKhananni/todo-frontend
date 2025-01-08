@@ -82,7 +82,7 @@ const SignUp = () => {
 
 
               </Form>
-            )}
+            )}z
           </Formik>
 
           <p className='mt-3 text-black me-1'>Already have an Account <Link className="text-blue-500" to="/signin">Signin</Link></p>
