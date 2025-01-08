@@ -16,6 +16,9 @@ const Todo = ({ todo }) => {
     const action = await dispatch(deleteTodo(id));
   };
 
+  console.log("Okay");
+  
+
   const onUpdate = () => {
     dispatch(todoActions.updatingTodo({ id: todo._id, status: true }));
   };
