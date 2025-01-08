@@ -6,11 +6,16 @@
       "use": "@vercel/static"
     }
   ],
-  
   "routes": [
     {
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ]
+  ],
+  
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs16.x"
+    }
+  }
 }
