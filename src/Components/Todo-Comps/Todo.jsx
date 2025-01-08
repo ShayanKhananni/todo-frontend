@@ -15,7 +15,8 @@ const Todo = ({ todo }) => {
   const handleDelete = async (id) => {
     const action = await dispatch(deleteTodo(id));
   };
-  
+
+
   const onUpdate = () => {
     dispatch(todoActions.updatingTodo({ id: todo._id, status: true }));
   };
