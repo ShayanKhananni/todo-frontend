@@ -8,7 +8,7 @@
   ],
   "routes": [
     {
-      "src": "/siginin",
+      "src": "/signin",
       "dest": "/index.html"
     }
   ],
