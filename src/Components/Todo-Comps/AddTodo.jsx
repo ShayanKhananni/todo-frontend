@@ -5,13 +5,11 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { addTodo } from "../../Services/todo-services";
 
-
 const AddTodo = () => {
   const dispatch = useDispatch();
-  const { _id } = useSelector((state) => state.auth.user)
-  const user_id = _id
-  const {error} = useSelector(state => state.todo);
-
+  const { _id } = useSelector((state) => state.auth.user);
+  const user_id = _id;
+  const { error } = useSelector((state) => state.todo);
 
   const initialValues = {
     title: "",
@@ -22,14 +20,18 @@ const AddTodo = () => {
   };
 
   console.log("Hello World");
-  
+
   const validationSchema = Yup.object().shape({
-    title: Yup.string().max(15, "maximum 15 characters").required("Title is Required"),
-    description: Yup.string().max(80, "maximum 45 characters").required("Description is Required")
+    title: Yup.string()
+      .max(15, "maximum 15 characters")
+      .required("Title is Required"),
+    description: Yup.string()
+      .max(80, "maximum 45 characters")
+      .required("Description is Required"),
   });
 
   const handleonSubmit = async (values, { setSubmitting, resetForm }) => {
-    const todo = {...values,user_id};
+    const todo = { ...values, user_id };
     const action = await dispatch(addTodo(todo));
     resetForm();
     setSubmitting(false);
@@ -41,8 +43,6 @@ const AddTodo = () => {
         className="todo-container font-primary flex flex-col my-3 px-3 w-full sm:w-3/5 mx-auto 
       lg:gap-x-4 lg:flex-row lg:flex-wrap lg:w-full"
       >
-
-        
         <Formik
           method="POST"
           initialValues={initialValues}
@@ -63,7 +63,11 @@ const AddTodo = () => {
                       className="text-black text-2xl font-bold border-none outline-none placeholder-black"
                       placeholder="Add Title"
                     />
-                    <ErrorMessage name="title" component="div" className="error text-xs text-red-500" />
+                    <ErrorMessage
+                      name="title"
+                      component="div"
+                      className="error text-xs text-red-500"
+                    />
                   </div>
 
                   <div className="description-container my-2">
@@ -74,8 +78,11 @@ const AddTodo = () => {
                       className="text-xs px-1 w-full text-grayCustom sm:pe-4 sm:text-md lg:text-lg border-none
                  outline-none"
                     />
-                  <ErrorMessage name="description" component="div" className="error text-xs text-red-500" />
-
+                    <ErrorMessage
+                      name="description"
+                      component="div"
+                      className="error text-xs text-red-500"
+                    />
                   </div>
 
                   <div className="deadline-container mt-auto text-grayCustom">
