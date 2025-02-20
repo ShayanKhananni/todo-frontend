@@ -1,20 +1,15 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
 import { RxUpdate } from "react-icons/rx";
 import { useState } from "react";
 import { setDate, setTime } from "../../utils/utils";
-import { updateTodo } from "../../Services/todo-services";
-import { todoActions } from "../../Store/todo-slice";
+import { useUpdateTodoMutation } from "../../Store/todo-api-slice";
 
-
-const UpdateTodo = ({todo}) => {
-
-  const dispatch = useDispatch();
-  console.log("rendered");
+const UpdateTodo = ({todo,setUpdating}) => {
 
   const [checkState,setCheckState] = useState(todo.priority);
+  const [updateTodo,{isLoading,error}] = useUpdateTodoMutation();
 
   console.log(todo.priority)
   const handleOnCheck = (e) =>
@@ -35,13 +30,10 @@ const UpdateTodo = ({todo}) => {
 
   const handleonSubmit = async (values, { setSubmitting }) => {
     const updatedTodo = {...values,priority:checkState,_id:todo._id};
-    const action = await dispatch(updateTodo(updatedTodo));
-    dispatch(todoActions.updatingTodo({id:todo._id,status:false}));
+    updateTodo(updatedTodo)
+    setUpdating(null);
     setSubmitting(false);
   };
-
-
-
 
   return (
     <>

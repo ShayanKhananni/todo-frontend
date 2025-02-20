@@ -27,7 +27,6 @@ const routes = [
 
       {
         element: <ProtectedRoute />,
-
         children: [
           { path: "/", element: <Home /> },
         ],

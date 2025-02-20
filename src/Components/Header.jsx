@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { initError } from "../utils/utils";
 import logo from '../assets/Logo.png';
 import { authActions } from "../Store/auth-slice";
-import { todoActions } from "../Store/todo-slice";
 
 const Header = () => {
   
@@ -29,20 +28,13 @@ const logout = async () => {
       const errData = response.json();
       initError(errData.message, errData.statusCode);
     }
-
-    const data = response.json();
-    dispatch(todoActions.emptyTodos());
-    console.log("cleaning todos");
     dispatch(authActions.signOut());
   } catch (err) {
     console.log(err);
   }
-
   const data = await response.json();
   console.log(data);
-
   dispatch(userActions.signOut());
-
 };
 
 
@@ -64,31 +56,7 @@ const logout = async () => {
 
               <div class="hidden sm:ml-6 lg:block sm:hidden">
                 <div class="flex space-x-4 ">
-                  {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
-
-                  {/* <a
-                    href="#"
-                    class="rounded-md bg-gray-900 px-3 py-2 text-lg font-medium text-white"
-                    aria-current="page"
-                  >
-                    Dashboard
-                  </a> */}
-
-                  <Link
-                    to="/"
-                    class="rounded-md px-3 py-2 text-lg font-medium text-white hover:bg-gray-700 hover:text-white"
-                  >
-                    Home
-                  </Link>
-
-                  <Link
-                    to="/about"
-                    class="rounded-md px-3 py-2 text-lg font-medium text-white hover:bg-gray-700 hover:text-white"
-                  >
-                    {" "}
-                    About
-                  </Link>
-
+                  
                   <Link
                     to="/profile"
                     class="rounded-md px-3 py-2 text-lg font-medium text-white hover:bg-gray-700 hover:text-white"

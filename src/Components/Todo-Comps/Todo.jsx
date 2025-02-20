@@ -2,24 +2,26 @@ import React from "react";
 import { BsCalendar2CheckFill } from "react-icons/bs";
 import { FaSquarePen } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
-import { useDispatch } from "react-redux";
-import { deleteTodo } from "../../Services/todo-services";
-import { todoActions } from "../../Store/todo-slice";
 import { setDate, setTime } from "../../utils/utils";
+import { useDeleteTodoMutation } from "../../Store/todo-api-slice";
 
-const Todo = ({ todo }) => {
-  const dispatch = useDispatch();
+const Todo = ({ todo, setUpdating}) => {
+
+  const [deleteTodo,{isLoading,error}] = useDeleteTodoMutation();
+
+
   const priorityArray = ["HIGH", "MID", "LOW"];
   const ColorArray = ["dangerRed", "amberYellow", "oceanBlue"];
+  
+  
 
   const handleDelete = async (id) => {
-    const action = await dispatch(deleteTodo(id));
+     dispatch(deleteTodo(id));
   };
 
-
-  const onUpdate = () => {
-    dispatch(todoActions.updatingTodo({ id: todo._id, status: true }));
-  };
+  const onUpdate = (id) => {
+    setUpdating(id);
+  }
 
   return (
     <>
@@ -41,24 +43,26 @@ const Todo = ({ todo }) => {
             {todo.description}
           </p>
 
-          <div className="date ms-5 flex text-grayCustom">
-            <BsCalendar2CheckFill />
+          {todo.date ? (
+            <div className="date ms-5 flex text-grayCustom">
+              <BsCalendar2CheckFill />
 
-            <p className="text-xs ms-1">
-              Deadlock
-              <span className="ms-1 mt-1 font-bold">
-                {`${todo.date ? setDate(todo.date) : " "} 
-                  ${todo.time ? setTime(todo.time) : " "}`}
-              </span>
-            </p>
-          </div>
+              <p className="text-xs ms-1">
+                <span className="ms-1 mt-1 font-bold">
+                  {`${todo.date ? setDate(todo.date) : " "} 
+          ${todo.time ? setTime(todo.time) : " "}`}
+                </span>
+              </p>
+            </div>
+          ) : null}
         </div>
+
 
         <div className="todo-right text-white  gap-2 w-1/5 flex items-center mt-5 lg:w-1/5">
           <button
             className="p-1 bg-green-400"
             onClick={() => {
-              onUpdate();
+              onUpdate(todo._id);
             }}
           >
             <FaSquarePen className="mx-auto text-xl lg:text-3xl" />
@@ -67,7 +71,7 @@ const Todo = ({ todo }) => {
           <button
             className="p-1 bg-softRed"
             onClick={() => {
-              handleDelete(todo._id);
+              deleteTodo(todo._id);
             }}
           >
             <MdDelete className="mx-auto text-xl lg:text-3xl" />

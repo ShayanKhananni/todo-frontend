@@ -56,7 +56,7 @@ const SignUp = () => {
             onSubmit={handleonSubmit}
           >
             {({ isSubmitting }) => (
-              <Form>
+              <Form autoComplete="off" >
                 <div className="relative mb-4">
                   <label
                     htmlFor="username"

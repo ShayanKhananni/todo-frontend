@@ -7,10 +7,10 @@ const AuthRoutes = () => {
   const {user} = useSelector((state) =>state.auth);
   const session = useSelector((state)=>state.session);
 
-    if(session && user)
+    if(user)
     {
       return <>
-      <Navigate to="/" />; 
+      <Navigate to="/"/>; 
       </> 
     }
     else

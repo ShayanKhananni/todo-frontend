@@ -5,14 +5,12 @@ import OAuth from "../Components/OAuth";
 import { sigininUser } from "../Services/auth-services";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { sessionActions } from "../Store/session-slice";
 import Spinner from "../Components/Spinner";
 
-
 const SignIn = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const {error,loading} = useSelector((state)=>state.auth)
+
   const initialValues = {
     email: "",
     password: "",
@@ -27,10 +25,7 @@ const SignIn = () => {
 
   const handleonSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      const action = await dispatch(sigininUser(values));
-      if (sigininUser.fulfilled.match(action)) {
-        dispatch(sessionActions.sessionActive());
-      }
+      dispatch(sigininUser(values));
     } catch (err) {
       setErrors({ submit: err.message || "Sigin failed. Please try again." });
     } finally {
@@ -55,7 +50,7 @@ const SignIn = () => {
             >
 
               {({ isSubmitting }) => (
-                <Form>
+                <Form autoComplete="off">
                     <div class="relative mb-4">
                       <label
                         for="email"
@@ -107,7 +102,7 @@ const SignIn = () => {
             <p className="mt-3  text-black me-1">
               Dont have an Account{" "}
               <Link class="text-blue-500" to="/signup">
-                Signin
+                Signup
               </Link>
             </p>
           </div>

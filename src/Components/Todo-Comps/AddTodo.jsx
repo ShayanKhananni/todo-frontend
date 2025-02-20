@@ -4,12 +4,14 @@ import { IoIosAddCircle } from "react-icons/io";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { addTodo } from "../../Services/todo-services";
+import { useAddTodoMutation } from "../../Store/todo-api-slice";
 
 const AddTodo = () => {
   const dispatch = useDispatch();
   const { _id } = useSelector((state) => state.auth.user);
   const user_id = _id;
-  const { error } = useSelector((state) => state.todo);
+  const [addTodo, {isLoading, error}] = useAddTodoMutation()
+
 
   const initialValues = {
     title: "",
@@ -18,7 +20,6 @@ const AddTodo = () => {
     date: "",
     time: "",
   };
-
 
   const validationSchema = Yup.object().shape({
     title: Yup.string()
@@ -30,8 +31,8 @@ const AddTodo = () => {
   });
 
   const handleonSubmit = async (values, { setSubmitting, resetForm }) => {
-    const todo = { ...values, user_id };
-    const action = await dispatch(addTodo(todo));
+    const todo = { ...values, user_id }
+    addTodo(todo);
     resetForm();
     setSubmitting(false);
   };

@@ -1,4 +1,4 @@
-import { combineSlices, createSlice } from "@reduxjs/toolkit";
+import {createSlice } from "@reduxjs/toolkit";
 import { sigininUser, signupUser } from "../Services/auth-services";
 
 

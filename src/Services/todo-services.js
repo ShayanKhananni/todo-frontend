@@ -5,14 +5,18 @@ export const getTodos = createAsyncThunk(
   "user/todos",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${url}/todo/get-todo/${id}`);
+
+      const response = await fetch(`${url}/todo/get-todo/${id}`,{
+        method: "GET",
+        credentials: "include",
+      });
 
       if (!response.ok) {
         const errData = await response.json();
         console.log(errData.message);
         return rejectWithValue(errData.message);
       }
-
+      
       const data = await response.json();
       return data;
     } catch (err) {
@@ -20,6 +24,8 @@ export const getTodos = createAsyncThunk(
     }
   }
 );
+
+
 
 export const addTodo = createAsyncThunk(
   "user/todo/add",
@@ -31,6 +37,7 @@ export const addTodo = createAsyncThunk(
           "Content-Type": "application/json",
         },
         body: JSON.stringify(todo),
+        credentials: "include",
       });
 
       if (!response.ok) {
@@ -52,6 +59,7 @@ export const updateTodo = createAsyncThunk(
     try {
       const response = await fetch(`${url}/todo/update-todo`, {
         method: "PUT",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -77,6 +85,7 @@ export const deleteTodo = createAsyncThunk(
     try {
       const response = await fetch(`${url}/todo/delete-todo/${id}`, {
         method: "DELETE",
+        credentials: "include",
       });
 
       if (!response.ok) {

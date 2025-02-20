@@ -1,10 +1,9 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authReducer from "./auth-slice";
-import sessionReducer from "./session-slice";
 import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
 import { persistStore } from "redux-persist";
-import todoReducer from "./todo-slice";
+import { todoApi } from "./todo-api-slice";
 
 const authPersistConfig = {
   key: 'auth',
@@ -15,8 +14,7 @@ const authPersistConfig = {
 
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
-  session: sessionReducer, 
-  todo:todoReducer,
+  [todoApi.reducerPath]: todoApi.reducer,
 });
 
 
@@ -25,7 +23,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }),
+    }).concat(todoApi.middleware), 
   devTools: true,
 });
 
