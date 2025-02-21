@@ -21,6 +21,9 @@ export const signupUser = createAsyncThunk(
       const data = await response.json();
       return data;
     } catch (err) {
+      if(!navigator.onLine){
+        return rejectWithValue("No internet connection")
+      }
       return rejectWithValue("Something went wrong");
     }
   }
@@ -47,6 +50,9 @@ export const sigininUser = createAsyncThunk(
       const data = await response.json();
       return data;
     } catch (err) {
+      if(!navigator.onLine){
+        return rejectWithValue("No internet connection")
+      }
       return rejectWithValue(err.message);
     }
   }
