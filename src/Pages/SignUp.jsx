@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../Components/OAuth";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,8 +6,12 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { signupUser } from "../Services/auth-services";
 import Spinner from "../Components/Spinner";
+import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
 
 const SignUp = () => {
+
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { error, loading } = useSelector((state) => state.auth);
@@ -28,9 +32,11 @@ const SignUp = () => {
       .required("Password is required"),
   });
 
+
+  
   const handleonSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      const action = await dispatch(signupUser(values));
+      const action = dispatch(signupUser(values));
       if (action.type.includes("fulfilled")) {
         navigate("/signin");
       }
@@ -55,8 +61,9 @@ const SignUp = () => {
             validationSchema={validationSchema}
             onSubmit={handleonSubmit}
           >
+            
             {({ isSubmitting }) => (
-              <Form autoComplete="off" >
+              <Form autoComplete="off">
                 <div className="relative mb-4">
                   <label
                     htmlFor="username"
@@ -99,6 +106,8 @@ const SignUp = () => {
                   />
                 </div>
 
+
+
                 <div className="relative mb-4">
                   <label
                     htmlFor="password"
@@ -107,18 +116,32 @@ const SignUp = () => {
                     Password
                   </label>
                   <Field
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     placeholder="Enter Password"
                     name="password"
-                    className="w-full bg-gray-100 font-semibold rounded border-none placeholder-black focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-sm outline-none text-gray-700 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                    className="w-full bg-gray-100 font-semibold rounded border-none placeholder-black focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-sm outline-none text-gray-700 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out pr-10" // Add padding for icon
                   />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-10 text-gray-600"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <FaRegEyeSlash size={20} />
+                    ) : (
+                      <FaRegEye size={20} />
+                    )}
+                  </button>
+
                   <ErrorMessage
                     name="password"
                     component="div"
                     className="text-red-600 text-sm"
                   />
                 </div>
+
+
 
                 <button
                   type="submit"
