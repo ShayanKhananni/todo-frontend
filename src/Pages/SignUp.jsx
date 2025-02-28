@@ -14,7 +14,7 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { error, loading } = useSelector((state) => state.auth);
+  const { signUpError, loading } = useSelector((state) => state.auth);
 
   const initialValues = {
     username: "",
@@ -139,6 +139,7 @@ const SignUp = () => {
                     component="div"
                     className="text-red-600 text-sm"
                   />
+
                 </div>
 
 
@@ -157,13 +158,17 @@ const SignUp = () => {
                   )}
                 </button>
 
-                <p className="text-red-500 font-bold">{error ? error : null}</p>
-
                 <OAuth />
+                
               </Form>
             )}
+            
           </Formik>
 
+          {signUpError ? <p className="text-red-500 text-lg">{signUpError}</p> : null}
+
+
+          
           <p className="mt-3 text-black me-1">
             Already have an Account{" "}
             <Link className="text-blue-500" to="/signin">
