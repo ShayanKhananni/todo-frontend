@@ -13,7 +13,6 @@ const TodoContainer = () => {
   const [updateState, setUpdateState] = useState(null);
 
 
-  // Fixing state update logic
   const setUpdating = (id) => {
     setUpdateState((prev) => (prev === id ? null : id));
   };
@@ -24,7 +23,6 @@ const TodoContainer = () => {
     setSorting(value);
   };
 
-  // Get sorted todos
   const getSortedTodos = () => {
     let sortedTodos = [...todos];
 

@@ -3,7 +3,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { IoIosAddCircle } from "react-icons/io";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo } from "../../Services/todo-services";
 import { useAddTodoMutation } from "../../Store/todo-api-slice";
 
 const AddTodo = () => {

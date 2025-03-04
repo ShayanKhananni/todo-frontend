@@ -5,7 +5,6 @@ import { Navigate, Outlet } from 'react-router-dom';
 const AuthRoutes = () => {
 
   const {user} = useSelector((state) =>state.auth);
-  const session = useSelector((state)=>state.session);
 
     if(user)
     {

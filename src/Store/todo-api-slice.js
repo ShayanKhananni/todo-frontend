@@ -1,12 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { authActions } from "./auth-slice";
  
-
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_BASE_URL,
   credentials: "include",
   prepareHeaders: (headers) => {
-    headers.set('Content-Type', 'application/json'); // Avoid custom headers unless needed
+    headers.set('Content-Type', 'application/json');
     return headers;
   },
 });
@@ -68,7 +67,6 @@ export const todoApi = createApi({
             draft.push(todo);
           })
         );
-
         try {
           await queryFulfilled;
         } catch {
@@ -92,7 +90,6 @@ export const todoApi = createApi({
             if (index !== -1) draft[index] = { ...draft[index], ...updated };
           })
         );
-
         try {
           await queryFulfilled;
         } catch {

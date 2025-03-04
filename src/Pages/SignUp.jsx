@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../Components/OAuth";
-import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { signupUser } from "../Services/auth-services";
 import Spinner from "../Components/Spinner";
 import { FaRegEye } from "react-icons/fa";
+import {toast} from "react-toastify";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { useSignupUserMutation } from "../Store/auth-api-slice";
+
 
 const SignUp = () => {
 
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { signUpError, loading } = useSelector((state) => state.auth);
+  const [signupUser,{isLoading}] = useSignupUserMutation()
+  const navigate = useNavigate()
 
   const initialValues = {
     username: "",
@@ -32,21 +32,21 @@ const SignUp = () => {
       .required("Password is required"),
   });
 
-
   
-  const handleonSubmit = async (values, { setSubmitting, setErrors }) => {
+  const handleonSubmit = async (values, { setSubmitting }) => {
     try {
-      const action = dispatch(signupUser(values));
-      if (action.type.includes("fulfilled")) {
-        navigate("/signin");
-      }
+      await signupUser(values).unwrap(); 
+      toast.success("Signup successful!");
+      navigate("/signin");
+      
     } catch (err) {
-      setErrors({ submit: err.message || "Signup failed. Please try again." });
+      toast.error(err?.data?.message || "Sign-up failed. Please try again.");
     } finally {
       setSubmitting(false);
     }
   };
 
+  
   return (
     <section className="text-gray-600 body-font">
       <div className="container justify-center px-5 mx-auto flex flex-wrap items-center">
@@ -149,7 +149,7 @@ const SignUp = () => {
                   disabled={isSubmitting}
                   className="text-white w-full font-semibold font-primary bg-softRed border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
                 >
-                  {loading ? (
+                  {isLoading ? (
                     <Spinner
                       styling={"w-10 h-10 fill-white-600  dark:text-gray-600"}
                     />
@@ -164,9 +164,6 @@ const SignUp = () => {
             )}
             
           </Formik>
-
-          {signUpError ? <p className="text-red-500 text-lg">{signUpError}</p> : null}
-
 
           
           <p className="mt-3 text-black me-1">

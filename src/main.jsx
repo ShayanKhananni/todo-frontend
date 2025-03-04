@@ -11,6 +11,7 @@ import SignIn from './Pages/SignIn';
 import Home from './Pages/Home';
 import ProtectedRoute from './Middlewares/ProtectedRoute';
 import AuthRoutes from './Middlewares/AuthRoutes';
+import Profile from './Pages/Profile';
 
 
 const routes = [
@@ -29,6 +30,7 @@ const routes = [
         element: <ProtectedRoute />,
         children: [
           { path: "/", element: <Home /> },
+          { path: "/profile", element: <Profile /> },
         ],
       },
     ],

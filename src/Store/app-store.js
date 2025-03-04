@@ -4,6 +4,7 @@ import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
 import { persistStore } from "redux-persist";
 import { todoApi } from "./todo-api-slice";
+import { authApi } from "./auth-api-slice";
 
 const authPersistConfig = {
   key: 'auth',
@@ -15,6 +16,8 @@ const authPersistConfig = {
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   [todoApi.reducerPath]: todoApi.reducer,
+  [authApi.reducerPath]: authApi.reducer,
+
 });
 
 
@@ -23,7 +26,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(todoApi.middleware), 
+    }).concat(todoApi.middleware,authApi.middleware), 
   devTools: true,
 });
 
