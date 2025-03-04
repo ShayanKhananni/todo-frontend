@@ -63,7 +63,7 @@ export const todoApi = createApi({
 
       async onQueryStarted(todo, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          todoApi.util.updateQueryData("getTodos", undefined, (draft) => {
+          todoApi.util.updateQueryData("getTodos",todo.user_id,(draft) => {
             draft.push(todo);
           })
         );
@@ -73,7 +73,6 @@ export const todoApi = createApi({
           patchResult.undo();
         }
       },
-      invalidatesTags: ["Todos"],
     }),
     
     updateTodo: builder.mutation({
@@ -82,17 +81,17 @@ export const todoApi = createApi({
         method: "PUT",
         body: updated,
       }),
-    
+
       async onQueryStarted(updated, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          todoApi.util.updateQueryData("getTodos", updated.userId, (draft) => {
+          todoApi.util.updateQueryData("getTodos", updated.user_id, (draft) => {
             const index = draft.findIndex((todo) => todo._id === updated._id);
             if (index !== -1) {
               draft[index] = { ...draft[index], ...updated };
             }
           })
         );
-    
+
         try {
           await queryFulfilled;
         } catch {
@@ -100,6 +99,8 @@ export const todoApi = createApi({
         }
       },
     }),
+    
+
     
     deleteTodo: builder.mutation({
       query: (id) => ({
