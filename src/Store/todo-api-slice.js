@@ -82,10 +82,9 @@ export const todoApi = createApi({
         method: "PUT",
         body: updated,
       }),
-
       async onQueryStarted(updated, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          todoApi.util.updateQueryData("getTodos", undefined, (draft) => {
+          todoApi.util.updateQueryData("getTodos", updated.userId, (draft) => {
             const index = draft.findIndex((todo) => todo._id === updated._id);
             if (index !== -1) draft[index] = { ...draft[index], ...updated };
           })
@@ -96,9 +95,6 @@ export const todoApi = createApi({
           patchResult.undo();
         }
       },
-      invalidatesTags: ["Todos"],
-    }),
-
     deleteTodo: builder.mutation({
       query: (id) => ({
         url: `/todo/delete-todo/${id}`,
