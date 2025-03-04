@@ -51,7 +51,13 @@ export const todoApi = createApi({
 
     getTodos: builder.query({
       query: (userId) => `/todo/get-todo/${userId}`,
-      providesTags: (result, error, userId) => [{ type: "Todos", id: userId }],
+      providesTags: (result, error, userId) =>
+        result
+          ? [
+              ...result.map(({ _id }) => ({ type: "Todos", id: _id })), // Tag each todo individually
+              { type: "Todos", id: userId }, // Tag for the entire list
+            ]
+          : [{ type: "Todos", id: userId }],
     }),
 
     addTodo: builder.mutation({
@@ -73,6 +79,8 @@ export const todoApi = createApi({
           patchResult.undo();
         }
       },
+
+      invalidatesTags: (result, error, todo) => [{ type: "Todos", id: todo.userId }],
     }),
 
     updateTodo: builder.mutation({
@@ -97,17 +105,19 @@ export const todoApi = createApi({
           patchResult.undo();
         }
       },
+
+      invalidatesTags: (result, error, updated) => [{ type: "Todos", id: updated._id }],
     }),
 
     deleteTodo: builder.mutation({
-      query: (id) => ({
+      query: ({ id, userId }) => ({
         url: `/todo/delete-todo/${id}`,
         method: "DELETE",
       }),
 
-      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ id, userId }, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          todoApi.util.updateQueryData("getTodos", undefined, (draft) => {
+          todoApi.util.updateQueryData("getTodos", userId, (draft) => {
             const index = draft.findIndex((todo) => todo._id === id);
             if (index !== -1) draft.splice(index, 1);
           })
@@ -119,6 +129,8 @@ export const todoApi = createApi({
           patchResult.undo();
         }
       },
+
+      invalidatesTags: (result, error, { id }) => [{ type: "Todos", id }],
     }),
   }),
 });
