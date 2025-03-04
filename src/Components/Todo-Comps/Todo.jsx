@@ -9,14 +9,19 @@ const Todo = ({ todo, setUpdating}) => {
 
   const [deleteTodo,{isLoading,error}] = useDeleteTodoMutation();
 
+
   const priorityArray = ["HIGH", "MID", "LOW"];
   const ColorArray = ["dangerRed", "amberYellow", "oceanBlue"];
   
   
+  const handleDelete = async (id) => {
+     dispatch(deleteTodo(id));
+  };
+
   const onUpdate = (id) => {
     setUpdating(id);
   }
-  
+
   return (
     <>
       <div
