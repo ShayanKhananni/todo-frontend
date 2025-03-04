@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { authActions } from "./auth-slice";
-
+ 
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_BASE_URL,
   credentials: "include",
   prepareHeaders: (headers) => {
-    headers.set("Content-Type", "application/json");
+    headers.set('Content-Type', 'application/json');
     return headers;
   },
 });
@@ -15,18 +15,17 @@ const baseQueryWithAuthCheck = async (args, api, extraOptions) => {
 
   if (result.error) {
     switch (result.error.status) {
+
       case 401:
-        api.dispatch(authActions.signOut());
+        api.dispatch(authActions.signOut()); 
         break;
 
       case 404:
-        const refreshResult = await api.dispatch(
-          todoApi.endpoints.refresh.initiate({})
-        );
+        const refreshResult = await api.dispatch(todoApi.endpoints.refresh.initiate({}));
 
         if (refreshResult.error) {
           api.dispatch(authActions.signOut());
-          return;
+          return; 
         }
         result = await baseQuery(args, api, extraOptions);
         break;
@@ -41,23 +40,18 @@ export const todoApi = createApi({
   tagTypes: ["Todos"],
 
   endpoints: (builder) => ({
+
     refresh: builder.mutation({
       query: () => ({
         url: "/auth/refresh",
         method: "POST",
-        credentials: "include",
+        credentials: "include", 
       }),
     }),
-
+    
     getTodos: builder.query({
       query: (userId) => `/todo/get-todo/${userId}`,
-      providesTags: (result, error, userId) =>
-        result
-          ? [
-              ...result.map(({ _id }) => ({ type: "Todos", id: _id })), // Tag each todo individually
-              { type: "Todos", id: userId }, // Tag for the entire list
-            ]
-          : [{ type: "Todos", id: userId }],
+      providesTags: ["Todos"],
     }),
 
     addTodo: builder.mutation({
@@ -69,7 +63,7 @@ export const todoApi = createApi({
 
       async onQueryStarted(todo, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          todoApi.util.updateQueryData("getTodos", todo.userId, (draft) => {
+          todoApi.util.updateQueryData("getTodos", undefined, (draft) => {
             draft.push(todo);
           })
         );
@@ -79,8 +73,7 @@ export const todoApi = createApi({
           patchResult.undo();
         }
       },
-
-      invalidatesTags: (result, error, todo) => [{ type: "Todos", id: todo.userId }],
+      invalidatesTags: ["Todos"],
     }),
 
     updateTodo: builder.mutation({
@@ -92,11 +85,9 @@ export const todoApi = createApi({
 
       async onQueryStarted(updated, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          todoApi.util.updateQueryData("getTodos", updated.userId, (draft) => {
+          todoApi.util.updateQueryData("getTodos", undefined, (draft) => {
             const index = draft.findIndex((todo) => todo._id === updated._id);
-            if (index !== -1) {
-              Object.assign(draft[index], updated);
-            }
+            if (index !== -1) draft[index] = { ...draft[index], ...updated };
           })
         );
         try {
@@ -105,21 +96,19 @@ export const todoApi = createApi({
           patchResult.undo();
         }
       },
-
-      invalidatesTags: (result, error, updated) => [{ type: "Todos", id: updated._id }],
+      invalidatesTags: ["Todos"],
     }),
 
     deleteTodo: builder.mutation({
-      query: ({ id, userId }) => ({
+      query: (id) => ({
         url: `/todo/delete-todo/${id}`,
         method: "DELETE",
       }),
 
-      async onQueryStarted({ id, userId }, { dispatch, queryFulfilled }) {
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          todoApi.util.updateQueryData("getTodos", userId, (draft) => {
-            const index = draft.findIndex((todo) => todo._id === id);
-            if (index !== -1) draft.splice(index, 1);
+          todoApi.util.updateQueryData("getTodos", undefined, (draft) => {
+            return draft.filter((todo) => todo._id !== id);
           })
         );
 
@@ -129,8 +118,7 @@ export const todoApi = createApi({
           patchResult.undo();
         }
       },
-
-      invalidatesTags: (result, error, { id }) => [{ type: "Todos", id }],
+      invalidatesTags: ["Todos"],
     }),
   }),
 });
