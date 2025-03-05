@@ -9,7 +9,6 @@ const Todo = ({ todo, setUpdating}) => {
 
   const [deleteTodo,{isLoading,error}] = useDeleteTodoMutation();
 
-
   const priorityArray = ["HIGH", "MID", "LOW"];
   const ColorArray = ["dangerRed", "amberYellow", "oceanBlue"];
   

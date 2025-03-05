@@ -5,37 +5,46 @@ import { RxUpdate } from "react-icons/rx";
 import { useState } from "react";
 import { setDate, setTime } from "../../utils/utils";
 import { useUpdateTodoMutation } from "../../Store/todo-api-slice";
+import { MdOutlineCancel } from "react-icons/md";
 
-const UpdateTodo = ({todo,setUpdating}) => {
+const UpdateTodo = ({ todo, setUpdating }) => {
+  const [checkState, setCheckState] = useState(todo.priority);
+  const [updateTodo, { isLoading, error }] = useUpdateTodoMutation();
 
-  const [checkState,setCheckState] = useState(todo.priority);
+  const handleOnCheck = (e, setFieldValue) => {
+    const value = Number(e.target.value); // Ensure value is a number
+    setCheckState(value);
+    setFieldValue("priority", value); // Update Formik's state
+  };
 
-  const [updateTodo,{isLoading,error}] = useUpdateTodoMutation();
-
-  
-  const handleOnCheck = (e) =>
-  {
-    setCheckState(e.target.value);
-  }
-
-  console.log('priority',todo.priority);
-
+  console.log("priority", todo.priority);
 
   const initialValues = {
     title: todo.title,
     description: todo.description,
     date: todo.date,
-    time: todo.time
+    time: todo.time,
+    priority: todo.priority,
   };
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is Required"),
   });
 
-
   const handleonSubmit = async (values, { setSubmitting }) => {
-    const updatedTodo = {...todo,...values,priority:checkState};
-    updateTodo(updatedTodo)
+    const updatedTodo = { _id: todo._id, user_id: todo.user_id };
+
+    Object.keys(values).forEach((key) => {
+      if (values[key] !== initialValues[key]) {
+        updatedTodo[key] = values[key];
+      }
+    });
+
+    if (todo.priority !== checkState) {
+      updateTodo.priority = checkState;
+    }
+
+    updateTodo(updatedTodo);
     setUpdating(null);
     setSubmitting(false);
   };
@@ -46,8 +55,9 @@ const UpdateTodo = ({todo,setUpdating}) => {
         method="POST"
         initialValues={initialValues}
         onSubmit={handleonSubmit}
+        enableReinitialize={true}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, dirty, setFieldValue }) => (
           <Form
             className="w-full lg:px-5 lg:w-2/5 md:w-3/5 mx-auto my-5 p-3 ps-3 shadow-customPositive relative rounded-sm flex flex-row  
             bg-white"
@@ -77,7 +87,11 @@ const UpdateTodo = ({todo,setUpdating}) => {
                 <p className="ps-1 text-sm font-bold text-grayCustom sm:pe-4">
                   Update Date
                 </p>
-                {todo.date ? <p className="text-xs my-1 ps-1 font-semibold">{setDate(todo.date)}</p> : null }
+                {todo.date ? (
+                  <p className="text-xs my-1 ps-1 font-semibold">
+                    {setDate(todo.date)}
+                  </p>
+                ) : null}
 
                 <Field
                   type="date"
@@ -88,7 +102,6 @@ const UpdateTodo = ({todo,setUpdating}) => {
               </div>
             </div>
 
-          
             <div className="todo-right w-2/5 lg:w-3/5 flex flex-col">
               <div className="priority-container mx-auto lg:ms-3 my-auto">
                 <div className="priority-selector">
@@ -99,7 +112,7 @@ const UpdateTodo = ({todo,setUpdating}) => {
                     value={1}
                     className="me-0.5 w-3"
                     checked={checkState === 1 ? "checked" : null}
-                    onChange={handleOnCheck}
+                    onChange={(e) => handleOnCheck(e, setFieldValue)}
                   />
                   <span className="inline-flex items-center rounded-sm px-2 py-0.5 text-xs font-medium uppercase text-white bg-dangerRed ring-1 ring-inset ring-gray-500/10">
                     HIGH
@@ -114,7 +127,7 @@ const UpdateTodo = ({todo,setUpdating}) => {
                     name="priority"
                     className="me-0.5 w-3"
                     checked={checkState === 2 ? "checked" : null}
-                    onChange={handleOnCheck}
+                    onChange={(e) => handleOnCheck(e, setFieldValue)}
                   />
                   <span className="inline-flex items-center rounded-sm px-2 py-0.5 text-xs font-medium uppercase text-white bg-amberYellow ring-1 ring-inset ring-gray-500/10">
                     MEDIUM
@@ -129,7 +142,7 @@ const UpdateTodo = ({todo,setUpdating}) => {
                     name="priority"
                     className="me-0.5 w-3"
                     checked={checkState === 3 ? "checked" : null}
-                    onChange={handleOnCheck}
+                    onChange={(e) => handleOnCheck(e, setFieldValue)}
                   />
                   <span className="inline-flex items-center rounded-sm px-2 py-0.5 text-xs font-medium uppercase text-white bg-oceanBlue ring-1 ring-inset ring-gray-500/10">
                     LOW
@@ -141,7 +154,11 @@ const UpdateTodo = ({todo,setUpdating}) => {
                 <p className="ps-1 text-sm font-bold text-grayCustom sm:pe-4">
                   Update Time
                 </p>
-                {todo.date ? <p className="text-xs my-1 ps-1 font-semibold">{setTime(todo.time)}</p> : null }
+                {todo.date ? (
+                  <p className="text-xs my-1 ps-1 font-semibold">
+                    {setTime(todo.time)}
+                  </p>
+                ) : null}
                 <Field
                   type="time"
                   name="time"
@@ -149,14 +166,21 @@ const UpdateTodo = ({todo,setUpdating}) => {
                   className="text-grayCustom border-solid border-2 w-auto text-xs sm:text-sm lg:text-md border-black text-center"
                 />
               </div>
+
+              <button
+                onClick={() => {
+                  setUpdating(null);
+                }}
+              >
+                <MdOutlineCancel className="absolute left-0 top-0 text-red-500 w-5 h-5" />
+              </button>
             </div>
 
-
             <button
+              disabled={!dirty || isSubmitting}
               type="submit"
-              className="bg-green-700 px-1 
-                   h-full block absolute right-0 top-0 ms-auto rounded-md text-white"
-              disabled={isSubmitting}
+              className={` ${dirty ? "bg-green-700" : "bg-gray-500"} px-1 
+                   h-full block absolute right-0 top-0 ms-auto rounded-md text-white`}
             >
               <RxUpdate className="mx-auto text-5xl lg:text-4xl xl:text-5xl" />
             </button>
