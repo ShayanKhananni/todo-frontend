@@ -14,10 +14,6 @@ const Todo = ({ todo, setUpdating}) => {
   const ColorArray = ["dangerRed", "amberYellow", "oceanBlue"];
   
   
-  const handleDelete = async (id) => {
-     dispatch(deleteTodo(id));
-  };
-
   const onUpdate = (id) => {
     setUpdating(id);
   }
@@ -70,7 +66,7 @@ const Todo = ({ todo, setUpdating}) => {
           <button
             className="p-1 bg-softRed"
             onClick={() => {
-              deleteTodo(todo._id);
+              deleteTodo(todo);
             }}
           >
             <MdDelete className="mx-auto text-xl lg:text-3xl" />

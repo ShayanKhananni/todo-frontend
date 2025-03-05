@@ -9,13 +9,17 @@ import { useUpdateTodoMutation } from "../../Store/todo-api-slice";
 const UpdateTodo = ({todo,setUpdating}) => {
 
   const [checkState,setCheckState] = useState(todo.priority);
+
   const [updateTodo,{isLoading,error}] = useUpdateTodoMutation();
 
-  console.log(todo.priority)
+  
   const handleOnCheck = (e) =>
   {
     setCheckState(e.target.value);
   }
+
+  console.log('priority',todo.priority);
+
 
   const initialValues = {
     title: todo.title,
@@ -28,8 +32,9 @@ const UpdateTodo = ({todo,setUpdating}) => {
     title: Yup.string().required("Title is Required"),
   });
 
+
   const handleonSubmit = async (values, { setSubmitting }) => {
-    const updatedTodo = {...values,priority:checkState,_id:todo._id};
+    const updatedTodo = {...todo,...values,priority:checkState};
     updateTodo(updatedTodo)
     setUpdating(null);
     setSubmitting(false);

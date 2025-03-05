@@ -12,7 +12,6 @@ const TodoContainer = () => {
   const [sorting, setSorting] = useState(null);
   const [updateState, setUpdateState] = useState(null);
 
-
   const setUpdating = (id) => {
     setUpdateState((prev) => (prev === id ? null : id));
   };
