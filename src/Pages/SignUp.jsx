@@ -5,16 +5,14 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Spinner from "../Components/Spinner";
 import { FaRegEye } from "react-icons/fa";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { useSignupUserMutation } from "../Store/auth-api-slice";
 
-
 const SignUp = () => {
-
   const [showPassword, setShowPassword] = useState(false);
-  const [signupUser,{isLoading}] = useSignupUserMutation()
-  const navigate = useNavigate()
+  const [signupUser, { isLoading }] = useSignupUserMutation();
+  const navigate = useNavigate();
 
   const initialValues = {
     username: "",
@@ -25,20 +23,26 @@ const SignUp = () => {
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
     email: Yup.string()
-      .email("Invalid email format")
+      .matches(/^[a-zA-Z0-9._%+-]+@gmail\.com$/, "Invalid Email Format")
       .required("Email is required"),
+
     password: Yup.string()
-      .min(8, "Password must be eight characters long")
+      .min(8, "Password must be at least 8 characters long")
+      .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+      .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+      .matches(/\d/, "Password must contain at least one digit")
+      .matches(
+        /[@$!%*?&]/,
+        "Password must contain at least one special character (@, $, !, %, *, ?, &)"
+      )
       .required("Password is required"),
   });
 
-  
   const handleonSubmit = async (values, { setSubmitting }) => {
     try {
-      await signupUser(values).unwrap(); 
+      await signupUser(values).unwrap();
       toast.success("Signup successful!");
       navigate("/signin");
-      
     } catch (err) {
       toast.error(err?.data?.message || "Sign-up failed. Please try again.");
     } finally {
@@ -46,7 +50,6 @@ const SignUp = () => {
     }
   };
 
-  
   return (
     <section className="text-gray-600 body-font">
       <div className="container justify-center px-5 mx-auto flex flex-wrap items-center">
@@ -61,7 +64,6 @@ const SignUp = () => {
             validationSchema={validationSchema}
             onSubmit={handleonSubmit}
           >
-            
             {({ isSubmitting }) => (
               <Form autoComplete="off">
                 <div className="relative mb-4">
@@ -106,8 +108,6 @@ const SignUp = () => {
                   />
                 </div>
 
-
-
                 <div className="relative mb-4">
                   <label
                     htmlFor="password"
@@ -139,10 +139,7 @@ const SignUp = () => {
                     component="div"
                     className="text-red-600 text-sm"
                   />
-
                 </div>
-
-
 
                 <button
                   type="submit"
@@ -159,13 +156,10 @@ const SignUp = () => {
                 </button>
 
                 <OAuth />
-                
               </Form>
             )}
-            
           </Formik>
 
-          
           <p className="mt-3 text-black me-1">
             Already have an Account{" "}
             <Link className="text-blue-500" to="/signin">

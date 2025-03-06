@@ -25,8 +25,8 @@ const [signinUser,{isLoading}] = useSigninUserMutation()
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
-      .email("Invalid email format")
-      .required("Email is required"),
+    .matches(/^[a-zA-Z0-9._%+-]+@gmail\.com$/, "Invalid Email Format")
+     .required("Email is required"),
     password: Yup.string().required("Password is required"),
   });
 
