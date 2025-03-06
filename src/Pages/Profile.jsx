@@ -88,7 +88,7 @@ const Profile = () => {
               <img
                 src={imgState || photoURL || "https://via.placeholder.com/80"}
                 alt="Profile"
-                className="w-full h-full rounded-full object-cover"
+                className="border border-solid border-black w-full h-full rounded-full object-cover"
               />
 
               <input
@@ -103,7 +103,9 @@ const Profile = () => {
             <h3 className="text-center font-bold my-2">Profile Picture</h3>
 
             <div className="mb-4">
-              <label className="block text-sm font-medium">Username</label>
+              <label className="block font-bold text-sm ">
+                Username
+              </label>
               <Field
                 type="text"
                 name="username"
