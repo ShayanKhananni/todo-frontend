@@ -31,7 +31,7 @@ function OAuth() {
     <>
       <button
         onClick={handleGoogleAuth}
-        class=" mt-3 font-primary flex gap-2 items-center justify-center w-full  font-semibold text-white bg-red-700 border-0 py-2 px-8 focus:outline-none hover:bg-blue-500 rounded text-md"
+        class=" mt-3 font-primary flex gap-2 items-center justify-center w-full text-sm lg:text-md font-semibold text-white bg-red-700 border-0 py-2 px-8 focus:outline-none hover:bg-blue-500 rounded "
         type="button"
       >
         {isLoading ? (

@@ -50,7 +50,7 @@ const [signinUser,{isLoading}] = useSigninUserMutation()
         <div class="container justify-center px-5 mx-auto flex flex-wrap items-center">
           <div class="lg:w-2/6 sm:w-2/4  lg:md-0 m-auto rounded-lg p-8 flex flex-col w-full ">
             <h2 class="text-gray-900 text-3xl font-bold font-primary text-center mb-5">
-              Signin
+              Login
             </h2>
 
             <Formik
@@ -125,7 +125,7 @@ const [signinUser,{isLoading}] = useSigninUserMutation()
                         styling={"w-10 h-10 fill-white-600  dark:text-gray-600"}
                       />
                     ) : (
-                      "Sigin"
+                      "Login"
                     )}
                   </button>
 
@@ -137,7 +137,7 @@ const [signinUser,{isLoading}] = useSigninUserMutation()
             {/* {error ? <p className="text-red-500 text-lg">{error}</p> : null} */}
 
             <p className="mt-3  text-black me-1">
-              Dont have an Account{" "}
+              Don't have an Account{" "}
               <Link class="text-blue-500" to="/signup">
                 Signup
               </Link>
