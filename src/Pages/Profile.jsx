@@ -10,15 +10,11 @@ import Spinner from "../Components/Spinner";
 import { authActions } from "../Store/auth-slice";
 
 const Profile = () => {
-
-
   const { _id, username, photoURL } = useSelector((state) => state.auth.user);
 
-  
   const dispatch = useDispatch();
   const [imgState, setImgState] = useState(null);
-  const [updateUser,{isLoading}] = useUpdateUserMutation()
-
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
 
   const profileFormValues = {
     username: username || "",
@@ -41,7 +37,6 @@ const Profile = () => {
     document.getElementById("fileInput").click();
   };
 
-
   const handleProfile = async (values, { setSubmitting }) => {
     setSubmitting(true);
 
@@ -59,9 +54,9 @@ const Profile = () => {
     });
 
     try {
-      const response = await updateUser(formData).unwrap(); 
+      const response = await updateUser(formData).unwrap();
       toast.success(response.message);
-      dispatch(authActions.updateUser(response.updatedUser)); 
+      dispatch(authActions.updateUser(response.updatedUser));
     } catch (err) {
       toast.error(err?.data?.message || "Failed to Update Profile");
     } finally {
@@ -79,7 +74,7 @@ const Profile = () => {
         enableReinitialize={true}
       >
         {({ setFieldValue, isSubmitting, dirty }) => (
-          <Form className="max-w-md mt-10 mx-4 p-6 shadow-customPositive bg-white rounded-lg">
+          <Form className="w-4/5 sm:w-2/5 lg:w-4/12 mt-10 mx-auto p-6 shadow-customPositive bg-white rounded-lg">
             <h1 className="text-center text-2xl font-bold mb-4">Profile</h1>
 
             <div className="relative w-20 h-20 mx-auto">
@@ -128,7 +123,7 @@ const Profile = () => {
                 dirty ? "bg-green-700" : "bg-gray-500"
               } text-lg w-full rounded-sm block mx-auto my-3 text-white p-2 font-semibold`}
             >
-              {isLoading ? <Spinner/> : "Update Profile"}
+              {isLoading ? <Spinner /> : "Update Profile"}
             </button>
           </Form>
         )}
