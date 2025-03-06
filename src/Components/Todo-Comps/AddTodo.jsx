@@ -54,12 +54,12 @@ const AddTodo = () => {
                 className="todo-form w-full py-4 mx-auto ps-3 shadow-customPositive relative rounded-md flex
            flex-row  lg:px-5 lg:w-2/5 bg-white"
               >
-                <div className="todo-left w-2/5 lg:w-3/5 flex flex-col justify-center ">
-                  <div className="title-container w-100">
+                <div className="todo-left w-3/6 lg:w-3/5 flex flex-col justify-center ">
+                  <div className="title-container">
                     <Field
                       type="text"
                       name="title"
-                      className="text-black text-2xl w-4/5 font-bold border-none outline-none placeholder-black"
+                      className="text-black text-2xl font-bold border-none outline-none placeholder-black"
                       placeholder="Add Title"
                     />
                     <ErrorMessage
@@ -97,7 +97,7 @@ const AddTodo = () => {
                   </div>
                 </div>
 
-                <div className="todo-right w-2/5 lg:w-3/5 flex flex-col">
+                <div className="todo-right w-2/6 lg:w-3/5 flex flex-col">
                   <div className="priority-container mx-auto lg:ms-3 my-auto">
                     <div className="priority-selector">
                       <Field
