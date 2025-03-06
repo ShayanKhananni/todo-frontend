@@ -6,10 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAddTodoMutation } from "../../Store/todo-api-slice";
 
 const AddTodo = () => {
-  const dispatch = useDispatch();
+
   const { _id } = useSelector((state) => state.auth.user);
   const user_id = _id;
-  const [addTodo, {isLoading, error}] = useAddTodoMutation()
+  const [addTodo] = useAddTodoMutation()
 
 
   const initialValues = {
@@ -55,11 +55,11 @@ const AddTodo = () => {
            flex-row  lg:px-5 lg:w-2/5 bg-white"
               >
                 <div className="todo-left w-2/5 lg:w-3/5 flex flex-col justify-center ">
-                  <div className="title-container">
+                  <div className="title-container w-100">
                     <Field
                       type="text"
                       name="title"
-                      className="text-black text-2xl font-bold border-none outline-none placeholder-black"
+                      className="text-black text-2xl w-4/5 font-bold border-none outline-none placeholder-black"
                       placeholder="Add Title"
                     />
                     <ErrorMessage

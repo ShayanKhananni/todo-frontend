@@ -79,7 +79,7 @@ const Profile = () => {
         enableReinitialize={true}
       >
         {({ setFieldValue, isSubmitting, dirty }) => (
-          <Form className="max-w-md mt-10 mx-auto p-6 shadow-customPositive bg-white rounded-lg">
+          <Form className="max-w-md mt-10 mx-4 p-6 shadow-customPositive bg-white rounded-lg">
             <h1 className="text-center text-2xl font-bold mb-4">Profile</h1>
 
             <div className="relative w-20 h-20 mx-auto">
