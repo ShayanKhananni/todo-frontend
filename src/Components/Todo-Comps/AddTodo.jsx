@@ -59,7 +59,7 @@ const AddTodo = () => {
                     <Field
                       type="text"
                       name="title"
-                      className="text-black text-2xl font-bold border-none outline-none placeholder-black"
+                      className="text-black w-full text-2xl font-bold border-none outline-none placeholder-black"
                       placeholder="Add Title"
                     />
                     <ErrorMessage
